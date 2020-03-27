@@ -31,7 +31,7 @@ class Author
     /**
      * @ORM\Column(type="date", nullable=true)
      */
-    private $birthdate;
+    private $birthday;
 
     /**
      * @ORM\Column(type="datetime")
@@ -89,14 +89,14 @@ class Author
         return $this;
     }
 
-    public function getBirthdate(): ?\DateTimeInterface
+    public function getBirthday(): ?\DateTimeInterface
     {
-        return $this->birthdate;
+        return $this->birthday;
     }
 
-    public function setBirthdate(?\DateTimeInterface $birthdate): self
+    public function setBirthday(?\DateTimeInterface $birthday): self
     {
-        $this->birthdate = $birthdate;
+        $this->birthday = $birthday;
 
         return $this;
     }

@@ -65,6 +65,7 @@ class TagController extends AbstractController
         $form_edit->handleRequest($request);
         if ($form_edit->isSubmitted() && $form_edit->isValid()) {
 
+            $tag->setUpdatedAt(new \DateTime());
             $em->flush();
 
             $this->addFlash('success', 'Etiquette ' . $tag->getTitle() . ' modifiée');

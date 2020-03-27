@@ -22,7 +22,7 @@ final class Version20200327202925 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE author CHANGE birthdate birthdate DATE DEFAULT NULL, CHANGE created_at created_at DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE author CHANGE birthday birthday DATE DEFAULT NULL, CHANGE created_at created_at DATETIME NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -30,6 +30,6 @@ final class Version20200327202925 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE author CHANGE birthdate birthdate DATETIME DEFAULT NULL, CHANGE created_at created_at DATE NOT NULL');
+        $this->addSql('ALTER TABLE author CHANGE birthday birthday DATETIME DEFAULT NULL, CHANGE created_at created_at DATE NOT NULL');
     }
 }

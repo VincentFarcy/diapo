@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <h1 class="mb-5">Administration des étiquettes</h1>
+    <h1 class="mb-4">Administration des étiquettes</h1>
 
     <table class="table table-hover">
 
@@ -16,6 +16,24 @@
         </thead>
 
         <tbody>
+
+            <tr class="table-primary">
+                <td colspan="2">
+                    {{ form_start(form_add, {'action': path('admin_tag_add'), 'method': 'POST'}) }}
+                    <div class="d-flex">
+                        <div class="mx-1">
+                            {{ form_widget(form_add.title) }}
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-outline-success py-0">
+                                <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    {{ form_end(form_add) }}
+                </td>
+            </tr>
+
             {% for tag in tags %}
 
                 <tr class="table-primary">
@@ -54,22 +72,6 @@
 
             {% endfor %}
 
-                <tr class="table-primary">
-                    <td colspan="2">
-                        {{ form_start(form_add, {'action': path('admin_tag_add'), 'method': 'POST'}) }}
-                        <div class="d-flex">
-                            <div class="mx-1">
-                                {{ form_widget(form_add.title) }}
-                            </div>
-                            <div>
-                                <button type="submit" class="btn btn-outline-success py-0">
-                                    <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </div>
-                        {{ form_end(form_add) }}
-                    </td>
-                </tr>
         </tbody>
 
     </table>

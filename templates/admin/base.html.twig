@@ -15,18 +15,34 @@
 
     <body>
 
+        {% set current_route = app.request.attributes.get('_route') %}
+        
         <nav>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#home">Etiquettes</a>
+                    <a href="{{ path('admin_tag_browse') }}" 
+                        class="nav-link {{ 'admin_tag' in current_route ? 'active' }}" 
+                        data-toggle="tab">
+                        Etiquettes
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#profile">Utilisateurs</a>
+                    <a href="{{ path('admin_author_browse') }}" 
+                        class="nav-link {{ 'admin_author' in current_route ? 'active' }}" 
+                        data-toggle="tab">
+                        Auteurs
+                    </a>
                 </li>
             </ul>
         </nav>
 
-        <div class="jumbotron">
+        <div class="jumbotron pt-4">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-dismissible alert-success">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+            {% endfor %}
             {% block body %}{% endblock %}
             {% block javascripts %}
                 <script
