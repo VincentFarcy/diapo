@@ -34,7 +34,7 @@ class Author
     private $birthdate;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     private $createdAt;
 
@@ -185,5 +185,10 @@ class Author
         }
 
         return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->firstname . ' ' . $this->lastname ;
     }
 }
