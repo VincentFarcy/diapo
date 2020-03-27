@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+    <header></header>
+
+    <main>
+        <section>
+
+            <h1>{{ album.title }}</h1>
+
+            <div><a href="{{ app.request.headers.get('referer') }}">Retour</a></div>
+
+            <p>{{ album.author.firstname }} {{ album.author.lastname }}</p>
+
+            <div>
+                {% for tag in album.tags %}
+                    {{ tag.title }}
+                {% endfor %}
+            </div>
+
+            <p>{{ album.content }}</p>
+
+            {% for image in album.images %}
+
+                <figure>
+                    <img src="{{ asset('images/' ~ image.src ) }}" alt="{{ image.alt }}"/>
+                    <figcaption>{{ album.title }}</figcaption>
+                </figure>
+
+            {% endfor %}
+
+        </section>
+    </main>
+
+    <footer></footer>
+
+
+</div>
+
+{% endblock %}

@@ -13,7 +13,7 @@ App\Entity\Author:
         birthdate: '<dateTimeBetween("-5 years", "-2 years")>' 
 
 App\Entity\Image:
-    image_{1..5}:
+    image_{1..10}:
         src: '<imageSrc()>' 
         alt: '<sentence(5, true)>' 
         caption: '<sentence(50, true)>' 

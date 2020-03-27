@@ -66,6 +66,11 @@ class Image
         $this->featuredOnAlbums = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->src;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

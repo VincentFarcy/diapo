@@ -4,6 +4,44 @@
 
 {% block body %}
 
-{{ dump(albums) }}
+<div class="container">
+
+    <header></header>
+
+    <main>
+        <section>
+
+        {% for album in albums %}
+
+            <article>
+
+                <p>{{ album.author.firstname }} {{ album.author.lastname }}</p>
+
+                    <a href="{{ path('album_read', {'id': album.id}) }}">
+                        <figure>
+                            <img src="{{ asset('images/' ~ album.featuredImage.src ) }}" alt="{{ album.featuredImage.alt }}"/>
+                            <figcaption>{{ album.title }}</figcaption>
+                        </figure>
+                    </a>
+
+                    <div>
+                        {% for tag in album.tags %}
+                            {{ tag.title }}
+                        {% endfor %}
+                    </div>
+                
+                <hr>
+
+            </article>
+
+        {% endfor %}
+
+        </section>
+    </main>
+
+    <footer></footer>
+
+
+</div>
 
 {% endblock %}

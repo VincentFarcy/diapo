@@ -7,9 +7,9 @@ use \Faker\Provider\Base as BaseProvider;
 class DiapoProvider extends BaseProvider {
 
     protected static $tags = [
-        'Etape 1',
-        'Etape 2',
-        'Etape 3',
+        'Jardin',
+        'Graine',
+        'MS',
     ];
 
     public static function tagTitle()
