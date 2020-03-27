@@ -14,7 +14,7 @@ App\Entity\Author:
 
 App\Entity\Image:
     image_{1..5}:
-        path: '<imagePath()>' 
+        src: '<imageSrc()>' 
         alt: '<sentence(5, true)>' 
         caption: '<sentence(50, true)>' 
         author: '@author*'

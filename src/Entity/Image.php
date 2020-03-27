@@ -21,7 +21,7 @@ class Image
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $path;
+    private $src;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -71,14 +71,14 @@ class Image
         return $this->id;
     }
 
-    public function getPath(): ?string
+    public function getSrc(): ?string
     {
-        return $this->path;
+        return $this->src;
     }
 
-    public function setPath(string $path): self
+    public function setSrc(string $src): self
     {
-        $this->path = $path;
+        $this->src = $src;
 
         return $this;
     }

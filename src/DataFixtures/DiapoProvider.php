@@ -30,7 +30,7 @@ class DiapoProvider extends BaseProvider {
         'photo10.jpeg',
     ];
 
-    public static function imagePath()
+    public static function imageSrc()
     {
         return static::randomElement(static::$images);
     }
