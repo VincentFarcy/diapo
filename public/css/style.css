@@ -1,3 +1,7 @@
 img {
     width: 200px;
 }
+
+th.action {
+    min-width: 160px;
+}

@@ -1,6 +1,6 @@
 {% extends '/admin/base.html.twig' %}
 
-{% block title %}Administration des étiquettes{% endblock %}
+{% block title %}Administration des auteurs{% endblock %}
 
 {% block body %}
 
@@ -13,7 +13,7 @@
                 <th scope="col">Prénom</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Date de naissance</th>
-                <th scope="col" class="text-center">Actions</th>
+                <th scope="col" class="text-center action">Actions</th>
             </tr>
         </thead>
 
@@ -21,20 +21,9 @@
 
             <tr class="table-primary">
                 {{ form_start(form_add, {'action': path('admin_author_add'), 'method': 'POST'}) }}
-                    <td colspan="3">
-                        <div class="d-flex">
-                            <div class="mx-1">
-                                {{ form_widget(form_add.firstname) }}
-                            </div>
-                            <div class="mx-1">
-                                {{ form_widget(form_add.lastname) }}
-                            </div>
-                            <div class="mx-1">
-                                {{ form_widget(form_add.birthday) }}
-                            </div>
-
-                        </div>
-                    </td>
+                    <td>{{ form_widget(form_add.firstname) }}</td>
+                    <td>{{ form_widget(form_add.lastname) }}</td>
+                    <td>{{ form_widget(form_add.birthday) }}</td>
                     <td class="text-center">
                             <div>
                                 <button type="submit" class="btn btn-outline-success">
@@ -52,26 +41,21 @@
                     {% if form_edit is defined and author == author_edit %}
 
                         {{ form_start(form_edit, {'action': path('admin_author_edit', {id: author.id}), 'method': 'POST'}) }}
-                        <td>
-                        <div class="d-flex">
-                            <div class="mx-1">
-                                {{ form_widget(form_edit.firstname) }}
-                            </div>
-                            <div class="mx-1">
-                                {{ form_widget(form_edit.lastname) }}
-                            </div>
-                            <div class="mx-1">
-                                {{ form_widget(form_edit.birthday) }}
-                            </div>
-                            <div>
-                                <button type="submit" class="btn btn-outline-success py-0">
-                                    <i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
+
+                            <td>{{ form_widget(form_edit.firstname) }}</td>
+                            <td>{{ form_widget(form_edit.lastname) }}</td>
+                            <td>{{ form_widget(form_edit.birthday) }}</td>
+
+                            <td class="text-center">
+                                <button type="submit" class="btn btn-outline-success">
+                                    <i class="fa fa-pencil fa-2x mx-2" aria-hidden="true"></i>
                                 </button>
-                            </div>
-                        </div>
-                        </td>
-                        <td></td>
-                        <td></td>
+
+                                <a href="{{ path('admin_author_browse') }}" class="btn btn-outline-secondary">
+                                    <i class="fa fa-close fa-2x mx-2" aria-hidden="true"></i>
+                                </a>
+                            </td>
+
                         {{ form_end(form_edit) }}
 
                     {% else %}
@@ -80,23 +64,27 @@
                         <td>{{ author.lastname }}</td>
                         <td>{{ author.birthday|date("m/d/Y") }}</td>
 
-                    {% endif %}
+                        <td class="text-center">
 
-                    <td class="text-center">
-                        <form action="{{ path('admin_author_edit', {id: author.id}) }}" method="post" class="d-inline">
-                            <button class="btn btn-outline-warning">
-                                <i class="fa fa-pencil fa-2x mx-2" aria-hidden="true" alt="modifier"></i>
-                            </button>
-                        </form>
-                        {% if author.images.count == 0 and author.albums.count == 0 %}
-                            <form action="{{ path('admin_author_delete', {id: author.id}) }}" method="post" class="d-inline">
-                                <input type="hidden" name="_method" value="DELETE" />
-                                <button class="btn btn-outline-danger delete-btn">
-                                    <i class="fa fa-trash fa-2x mx-2" aria-hidden="true" alt="supprimer"></i>
+                            <form action="{{ path('admin_author_edit', {id: author.id}) }}" method="post" class="d-inline">
+                                <button class="btn btn-outline-warning">
+                                    <i class="fa fa-pencil fa-2x mx-2" aria-hidden="true" alt="modifier"></i>
                                 </button>
                             </form>
-                        {% endif %}
-                    </td>
+
+                            {% if author.images.count == 0 and author.albums.count == 0 %}
+                                <form action="{{ path('admin_author_delete', {id: author.id}) }}" method="post" class="delete-form d-inline">
+                                    <input type="hidden" name="_method" value="DELETE" />
+                                    <button class="btn btn-outline-danger">
+                                        <i class="fa fa-trash fa-2x mx-2" aria-hidden="true" alt="supprimer"></i>
+                                    </button>
+                                </form>
+                            {% endif %}
+
+                        </td>
+
+                    {% endif %}
+
                 </tr>
 
             {% endfor %}

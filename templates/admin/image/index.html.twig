@@ -1,0 +1,98 @@
+{% extends '/admin/base.html.twig' %}
+
+{% block title %}Administration des images{% endblock %}
+
+{% block body %}
+
+    <h1 class="mb-4">Administration des images</h1>
+
+    <table class="table table-hover">
+
+        <thead>
+            <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Texte alternatif</th>
+                <th scope="col">Légende</th>
+                <th scope="col">Auteur</th>
+                <th scope="col" class="text-center action">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr class="table-primary">
+                {{ form_start(form_add, {'action': path('admin_image_add'), 'method': 'POST'}) }}
+                    <td>{{ form_widget(form_add.src) }}</td>
+                    <td>{{ form_widget(form_add.alt) }}</td>
+                    <td>{{ form_widget(form_add.caption) }}</td>
+                    <td>{{ form_widget(form_add.author) }}</td>
+                    <td class="text-center">
+                        <button type="submit" class="btn btn-outline-success">
+                            <i class="fa fa-plus-circle fa-2x mx-2" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                {{ form_end(form_add) }}
+            </tr>
+
+            {% for image in images %}
+
+                <tr class="table-primary">
+
+                    {% if form_edit is defined and image == image_edit %}
+
+                        {{ form_start(form_edit, {'action': path('admin_image_edit', {id: image.id}), 'method': 'POST'}) }}
+
+                            <td>{{ form_widget(form_edit.src) }}</td>
+                            <td>{{ form_widget(form_edit.alt) }}</td>
+                            <td>{{ form_widget(form_edit.caption) }}</td>
+                            <td>{{ form_widget(form_edit.author) }}</td>
+
+                            <td class="text-center">
+                                <button type="submit" class="btn btn-outline-success">
+                                    <i class="fa fa-pencil fa-2x mx-2" aria-hidden="true"></i>
+                                </button>
+
+                                <a href="{{ path('admin_image_browse') }}" class="btn btn-outline-secondary">
+                                    <i class="fa fa-close fa-2x mx-2" aria-hidden="true"></i>
+                                </a>
+                            </td>
+
+                        {{ form_end(form_edit) }}
+
+                    {% else %}
+
+                        <td>{{ image.src }}</td>
+                        <td>{{ image.alt }}</td>
+                        <td>{{ image.caption }}</td>
+                        <td>{{ image.author }}</td>
+
+                        <td class="text-center">
+
+                            <form action="{{ path('admin_image_edit', {id: image.id}) }}" method="post" class="d-inline">
+                                <button class="btn btn-outline-warning">
+                                    <i class="fa fa-pencil fa-2x mx-2" aria-hidden="true" alt="modifier"></i>
+                                </button>
+                            </form>
+
+                            {% if image.albums.count == 0 and image.featuredOnAlbums.count == 0 %}
+                                <form action="{{ path('admin_image_delete', {id: image.id}) }}" method="post" class="delete-form d-inline">
+                                    <input type="hidden" name="_method" value="DELETE" />
+                                    <button class="btn btn-outline-danger">
+                                        <i class="fa fa-trash fa-2x mx-2" aria-hidden="true" alt="supprimer"></i>
+                                    </button>
+                                </form>
+                            {% endif %}
+
+                        </td>
+
+                    {% endif %}
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+{% endblock %}

@@ -11,65 +11,73 @@
         <thead>
             <tr>
                 <th scope="col">Nom de l'étiquette</th>
-                <th scope="col" class="text-center">Actions</th>
+                <th scope="col" class="text-center action">Actions</th>
             </tr>
         </thead>
 
         <tbody>
 
             <tr class="table-primary">
+
                 {{ form_start(form_add, {'action': path('admin_tag_add'), 'method': 'POST'}) }}
-                    <td>
-                        <div class="d-flex">
-                            <div class="mx-1">
-                                {{ form_widget(form_add.title) }}
-                            </div>
-                        </div>
-                    </td>
+
+                    <td>{{ form_widget(form_add.title) }}</td>
+
                     <td class="text-center">
-                        <div>
-                            <button type="submit" class="btn btn-outline-success">
-                                <i class="fa fa-plus-circle fa-2x mx-2" aria-hidden="true"></i>
-                            </button>
-                        </div>
+                        <button type="submit" class="btn btn-outline-success">
+                            <i class="fa fa-plus-circle fa-2x mx-2" aria-hidden="true"></i>
+                        </button>
                     </td>
+
                 {{ form_end(form_add) }}
+
             </tr>
 
             {% for tag in tags %}
 
                 <tr class="table-primary">
-                    <td>
-                        {% if form_edit is defined and tag == tag_edit %}
-                            {{ form_start(form_edit, {'action': path('admin_tag_edit', {id: tag.id}), 'method': 'POST'}) }}
-                            <div class="d-flex">
-                                <div class="mx-1">
-                                    {{ form_widget(form_edit.title) }}
-                                </div>
-                                <div>
-                                    <button type="submit" class="btn btn-outline-success py-0">
-                                        <i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            {{ form_end(form_edit) }}
-                        {% else %}
-                            {{ tag.title }}
-                        {% endif %}
-                    </td>
-                    <td class="text-center">
-                        <form action="{{ path('admin_tag_edit', {id: tag.id}) }}" method="post" class="d-inline">
-                            <button class="btn btn-outline-warning">
-                                <i class="fa fa-pencil fa-2x mx-2" aria-hidden="true" alt="modifier"></i>
-                            </button>
-                        </form>
-                        <form action="{{ path('admin_tag_delete', {id: tag.id}) }}" method="post" class="d-inline">
-                            <input type="hidden" name="_method" value="DELETE" />
-                            <button class="btn btn-outline-danger delete-btn">
-                                <i class="fa fa-trash fa-2x mx-2" aria-hidden="true" alt="supprimer"></i>
-                            </button>
-                        </form>
-                    </td>
+
+                    {% if form_edit is defined and tag == tag_edit %}
+
+                        {{ form_start(form_edit, {'action': path('admin_tag_edit', {id: tag.id}), 'method': 'POST'}) }}
+
+                            <td>{{ form_widget(form_edit.title) }}</td>
+
+                            <td class="text-center">
+                                <button type="submit" class="btn btn-outline-success">
+                                    <i class="fa fa-pencil fa-2x mx-2" aria-hidden="true"></i>
+                                </button>
+
+                                <a href="{{ path('admin_tag_browse') }}" class="btn btn-outline-secondary">
+                                    <i class="fa fa-close fa-2x mx-2" aria-hidden="true"></i>
+                                </a>
+                            </td>
+
+                        {{ form_end(form_edit) }}
+
+                    {% else %}
+
+                        <td>{{ tag.title }}</td>
+
+                        <td class="text-center">
+
+                            <form action="{{ path('admin_tag_edit', {id: tag.id}) }}" method="post" class="d-inline">
+                                <button class="btn btn-outline-warning">
+                                    <i class="fa fa-pencil fa-2x mx-2" aria-hidden="true" alt="modifier"></i>
+                                </button>
+                            </form>
+
+                            <form action="{{ path('admin_tag_delete', {id: tag.id}) }}" method="post" class="delete-form d-inline">
+                                <input type="hidden" name="_method" value="DELETE" />
+                                <button class="btn btn-outline-danger">
+                                    <i class="fa fa-trash fa-2x mx-2" aria-hidden="true" alt="supprimer"></i>
+                                </button>
+                            </form>
+
+                        </td>
+
+                    {% endif %}
+
                 </tr>
 
             {% endfor %}
