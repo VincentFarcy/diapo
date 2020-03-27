@@ -20,26 +20,29 @@
         <tbody>
 
             <tr class="table-primary">
-                <td colspan="4">
-                    {{ form_start(form_add, {'action': path('admin_author_add'), 'method': 'POST'}) }}
-                    <div class="d-flex">
-                        <div class="mx-1">
-                            {{ form_widget(form_add.firstname) }}
+                {{ form_start(form_add, {'action': path('admin_author_add'), 'method': 'POST'}) }}
+                    <td colspan="3">
+                        <div class="d-flex">
+                            <div class="mx-1">
+                                {{ form_widget(form_add.firstname) }}
+                            </div>
+                            <div class="mx-1">
+                                {{ form_widget(form_add.lastname) }}
+                            </div>
+                            <div class="mx-1">
+                                {{ form_widget(form_add.birthday) }}
+                            </div>
+
                         </div>
-                        <div class="mx-1">
-                            {{ form_widget(form_add.lastname) }}
-                        </div>
-                        <div class="mx-1">
-                            {{ form_widget(form_add.birthday) }}
-                        </div>
-                        <div>
-                            <button type="submit" class="btn btn-outline-success py-0">
-                                <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </div>
-                    {{ form_end(form_add) }}
-                </td>
+                    </td>
+                    <td class="text-center">
+                            <div>
+                                <button type="submit" class="btn btn-outline-success">
+                                    <i class="fa fa-plus-circle fa-2x mx-2" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                    </td>
+                {{ form_end(form_add) }}
             </tr>
 
             {% for author in authors %}

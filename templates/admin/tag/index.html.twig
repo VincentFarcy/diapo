@@ -18,20 +18,22 @@
         <tbody>
 
             <tr class="table-primary">
-                <td colspan="2">
-                    {{ form_start(form_add, {'action': path('admin_tag_add'), 'method': 'POST'}) }}
-                    <div class="d-flex">
-                        <div class="mx-1">
-                            {{ form_widget(form_add.title) }}
+                {{ form_start(form_add, {'action': path('admin_tag_add'), 'method': 'POST'}) }}
+                    <td>
+                        <div class="d-flex">
+                            <div class="mx-1">
+                                {{ form_widget(form_add.title) }}
+                            </div>
                         </div>
+                    </td>
+                    <td class="text-center">
                         <div>
-                            <button type="submit" class="btn btn-outline-success py-0">
-                                <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                            <button type="submit" class="btn btn-outline-success">
+                                <i class="fa fa-plus-circle fa-2x mx-2" aria-hidden="true"></i>
                             </button>
                         </div>
-                    </div>
-                    {{ form_end(form_add) }}
-                </td>
+                    </td>
+                {{ form_end(form_add) }}
             </tr>
 
             {% for tag in tags %}
