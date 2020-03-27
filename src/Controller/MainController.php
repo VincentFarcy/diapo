@@ -15,7 +15,6 @@ class MainController extends AbstractController
     public function index(AlbumRepository $albumRepository)
     {
         return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
             'albums' => $albumRepository->findAll(),
         ]);
     }
@@ -26,7 +25,6 @@ class MainController extends AbstractController
     public function read(Album $album)
     {
         return $this->render('main/read.html.twig', [
-            'controller_name' => 'MainController',
             'album' => $album,
         ]);
     }

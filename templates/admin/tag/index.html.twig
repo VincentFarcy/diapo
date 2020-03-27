@@ -1,0 +1,77 @@
+{% extends '/admin/base.html.twig' %}
+
+{% block title %}Administration des étiquettes{% endblock %}
+
+{% block body %}
+
+    <h1 class="mb-5">Administration des étiquettes</h1>
+
+    <table class="table table-hover">
+
+        <thead>
+            <tr>
+                <th scope="col">Nom de l'étiquette</th>
+                <th scope="col" class="text-center">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for tag in tags %}
+
+                <tr class="table-primary">
+                    <td>
+                        {% if form_edit is defined and tag == tag_edit %}
+                            {{ form_start(form_edit, {'action': path('admin_tag_edit', {id: tag.id}), 'method': 'POST'}) }}
+                            <div class="d-flex">
+                                <div class="mx-1">
+                                    {{ form_widget(form_edit.title) }}
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-outline-success py-0">
+                                        <i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            {{ form_end(form_edit) }}
+                        {% else %}
+                            {{ tag.title }}
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <form action="{{ path('admin_tag_edit', {id: tag.id}) }}" method="post" class="d-inline">
+                            <button class="btn btn-outline-warning">
+                                <i class="fa fa-pencil fa-2x mx-2" aria-hidden="true" alt="modifier"></i>
+                            </button>
+                        </form>
+                        <form action="{{ path('admin_tag_delete', {id: tag.id}) }}" method="post" class="d-inline">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <button class="btn btn-outline-danger delete-btn">
+                                <i class="fa fa-trash fa-2x mx-2" aria-hidden="true" alt="supprimer"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+                <tr class="table-primary">
+                    <td colspan="2">
+                        {{ form_start(form_add, {'action': path('admin_tag_add'), 'method': 'POST'}) }}
+                        <div class="d-flex">
+                            <div class="mx-1">
+                                {{ form_widget(form_add.title) }}
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-outline-success py-0">
+                                    <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {{ form_end(form_add) }}
+                    </td>
+                </tr>
+        </tbody>
+
+    </table>
+
+{% endblock %}
