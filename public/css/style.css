@@ -1,3 +1,7 @@
+.jumbotron {
+    min-height: 50vh;
+}
+
 .album img {
     width: 50%;
 }
