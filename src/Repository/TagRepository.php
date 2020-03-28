@@ -23,6 +23,16 @@ class TagRepository extends ServiceEntityRepository
     {
         return $this->findBy(array(), array('title' => 'ASC'));
     }
+
+    public function findAllWithAlbums()
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.albums', 'a')
+            ->orderBy('t.title', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+    
     // /**
     //  * @return Tag[] Returns an array of Tag objects
     //  */

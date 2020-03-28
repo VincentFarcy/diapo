@@ -24,6 +24,16 @@ class AuthorRepository extends ServiceEntityRepository
         return $this->findBy(array(), array('firstname' => 'ASC', 'lastname' => 'ASC'));
     }
 
+    public function findAllWithAlbums()
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.albums', 'al')
+            ->addOrderBy('a.firstname', 'ASC')
+            ->addOrderBy('a.lastname', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Author[] Returns an array of Author objects
     //  */

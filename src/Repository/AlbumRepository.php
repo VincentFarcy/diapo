@@ -19,6 +19,28 @@ class AlbumRepository extends ServiceEntityRepository
         parent::__construct($registry, Album::class);
     }
 
+    public function findBytag($id)
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.tags', 't')
+            ->setParameter('id', $id)
+            ->andWhere('t.id= :id')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByAuthor($id)
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.author', 'au')
+            ->setParameter('id', $id)
+            ->andWhere('au.id= :id')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Album[] Returns an array of Album objects
     //  */

@@ -44,27 +44,28 @@ class Album
     private $tags;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Image", inversedBy="albums")
-     */
-    private $images;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Image", inversedBy="featuredOnAlbums")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $featuredImage;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Author", inversedBy="albums")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ImageAlbum", mappedBy="album", orphanRemoval=true)
+     */
+    private $imageAlbums;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Image")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $featuredImage;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->tags = new ArrayCollection();
-        $this->images = new ArrayCollection();
+        $this->imageInAlbums = new ArrayCollection();
+        $this->imageAlbums = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,27 +147,44 @@ class Album
         return $this;
     }
 
-    /**
-     * @return Collection|Image[]
-     */
-    public function getImages(): Collection
+    public function getAuthor(): ?Author
     {
-        return $this->images;
+        return $this->author;
     }
 
-    public function addImage(Image $image): self
+    public function setAuthor(?Author $author): self
     {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ImageAlbum[]
+     */
+    public function getImageAlbums(): Collection
+    {
+        return $this->imageAlbums;
+    }
+
+    public function addImageAlbum(ImageAlbum $imageAlbum): self
+    {
+        if (!$this->imageAlbums->contains($imageAlbum)) {
+            $this->imageAlbums[] = $imageAlbum;
+            $imageAlbum->setAlbum($this);
         }
 
         return $this;
     }
 
-    public function removeImage(Image $image): self
+    public function removeImageAlbum(ImageAlbum $imageAlbum): self
     {
-        if ($this->images->contains($image)) {
-            $this->images->removeElement($image);
+        if ($this->imageAlbums->contains($imageAlbum)) {
+            $this->imageAlbums->removeElement($imageAlbum);
+            // set the owning side to null (unless already changed)
+            if ($imageAlbum->getAlbum() === $this) {
+                $imageAlbum->setAlbum(null);
+            }
         }
 
         return $this;
@@ -184,15 +202,4 @@ class Album
         return $this;
     }
 
-    public function getAuthor(): ?Author
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?Author $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
 }

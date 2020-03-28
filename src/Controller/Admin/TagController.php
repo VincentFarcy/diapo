@@ -46,7 +46,7 @@ class TagController extends AbstractController
             $em->persist($tag);
             $em->flush();
 
-            $this->addFlash('success', 'Etiquette ' . $tag->getTitle() . ' ajoutée');
+            $this->addFlash('success', 'Etiquette "' . $tag->getTitle() . '" ajoutée');
         }
         
         return $this->redirectToRoute('admin_tag_browse');
@@ -68,7 +68,7 @@ class TagController extends AbstractController
             $tag->setUpdatedAt(new \DateTime());
             $em->flush();
 
-            $this->addFlash('success', 'Etiquette ' . $tag->getTitle() . ' modifiée');
+            $this->addFlash('success', 'Etiquette "' . $tag->getTitle() . '" modifiée');
 
             return $this->redirectToRoute('admin_tag_browse');
         }
@@ -91,7 +91,7 @@ class TagController extends AbstractController
             $em->remove($tag);
             $em->flush();
 
-            $this->addFlash('success', 'Etiquette ' . $tag->getTitle() . ' supprimée');
+            $this->addFlash('success', 'Etiquette "' . $tag->getTitle() . '" supprimée');
         }
         
         return $this->redirectToRoute('admin_tag_browse');

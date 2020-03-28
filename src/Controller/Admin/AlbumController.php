@@ -46,7 +46,7 @@ class AlbumController extends AbstractController
             $em->persist($album);
             $em->flush();
 
-            $this->addFlash('success', 'Album ' . $album->getTitle() . ' ajouté');
+            $this->addFlash('success', 'Album "' . $album->getTitle() . '" ajouté');
         }
         
         return $this->redirectToRoute('admin_album_browse');
@@ -68,7 +68,7 @@ class AlbumController extends AbstractController
             $album->setUpdatedAt(new \DateTime());
             $em->flush();
 
-            $this->addFlash('success', 'Album ' . $album->getTitle() . ' modifié');
+            $this->addFlash('success', 'Album "' . $album->getTitle() . '" modifié');
 
             return $this->redirectToRoute('admin_album_browse');
         }
@@ -91,7 +91,7 @@ class AlbumController extends AbstractController
             $em->remove($album);
             $em->flush();
 
-            $this->addFlash('success', 'Album ' . $album->getTitle() . ' supprimé');
+            $this->addFlash('success', 'Album "' . $album->getTitle() . '" supprimé');
         }
         
         return $this->redirectToRoute('admin_album_browse');

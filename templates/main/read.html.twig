@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}Album {{ album.title }} {% endblock %}
 
 {% block body %}
 
@@ -11,7 +11,7 @@
     <main class ="album">
         <section>
 
-            <h1>{{ album.title }}</h1>
+            <h1>{{ album.title|nl2br }}</h1>
 
             <div><a href="{{ app.request.headers.get('referer') }}">Retour</a></div>
 
@@ -23,7 +23,7 @@
                 {% endfor %}
             </div>
 
-            <p>{{ album.content }}</p>
+            <p>{{ album.content|nl2br }}</p>
 
             {% for image in album.images %}
 
@@ -32,7 +32,7 @@
                         src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ image.src) }}" 
                         alt="{{ image.alt }}"
                     />
-                    <figcaption>{{ album.title }}</figcaption>
+                    <figcaption>{{ image.caption|nl2br }}</figcaption>
                 </figure>
 
             {% endfor %}

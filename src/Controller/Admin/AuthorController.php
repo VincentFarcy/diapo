@@ -46,7 +46,7 @@ class AuthorController extends AbstractController
             $em->persist($author);
             $em->flush();
 
-            $this->addFlash('success', 'Auteur ' . $author->getFullName() . ' ajouté');
+            $this->addFlash('success', 'Auteur "' . $author->getFullName() . '" ajouté');
         }
         
         return $this->redirectToRoute('admin_author_browse');
@@ -68,7 +68,7 @@ class AuthorController extends AbstractController
             $author->setUpdatedAt(new \DateTime());
             $em->flush();
 
-            $this->addFlash('success', 'Auteur ' . $author->getFullName() . ' modifié');
+            $this->addFlash('success', 'Auteur "' . $author->getFullName() . '" modifié');
 
             return $this->redirectToRoute('admin_author_browse');
         }
@@ -91,7 +91,7 @@ class AuthorController extends AbstractController
             $em->remove($author);
             $em->flush();
 
-            $this->addFlash('success', 'Auteur ' . $author->getFullName() . ' supprimé');
+            $this->addFlash('success', 'Auteur "' . $author->getFullName() . '" supprimé');
         }
         
         return $this->redirectToRoute('admin_author_browse');

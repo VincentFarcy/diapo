@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}Liste des albums{% endblock %}
 
 {% block body %}
 
@@ -11,33 +11,61 @@
     <main class="album-list">
         <section>
 
-        {% for album in albums %}
+            <h1>Liste des albums</h1>
 
-            <article>
+            <form action="{{ path('albums_by_tag', {'id': 0}) }}">
+                <select class="filter">
+                    <option value="0">Liste des étiquettes</option>
 
-                <p>{{ album.author.firstname }} {{ album.author.lastname }}</p>
+                    {% for tag in tags %}
+                        <option value={{ tag.id }}>{{ tag.title }}</option>
+                    {% endfor %}
 
-                    <a href="{{ path('album_read', {'id': album.id}) }}">
-                        <figure>
-                            <img 
-                                src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ album.featuredImage.src) }}" 
-                                alt="{{ album.featuredImage.alt }}"
-                            />
-                            <figcaption>{{ album.title }}</figcaption>
-                        </figure>
-                    </a>
+                </select>
+            </form>
 
-                    <div>
-                        {% for tag in album.tags %}
-                            {{ tag.title }}
-                        {% endfor %}
-                    </div>
-                
-                <hr>
+            <form action="{{ path('albums_by_author', {'id': 0}) }}">
+                <select class="filter">
+                    <option value="0">Liste des auteurs</option>
 
-            </article>
+                    {% for author in authors %}
+                        <option value={{ author.id }}>{{ author.firstname }} {{ author.lastname }}</option>
+                    {% endfor %}
 
-        {% endfor %}
+                </select>
+            </form>
+
+
+
+            {% for album in albums %}
+
+                <article>
+
+                    <p>{{ album.author.firstname }} {{ album.author.lastname }}</p>
+
+                        <a href="{{ path('album_read', {'id': album.id}) }}">
+                            <figure>
+                            {#
+                                <img 
+                                    src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ album.featuredImage.src) }}" 
+                                    alt="{{ album.featuredImage.alt }}"
+                                />
+                            #}
+                                <figcaption>{{ album.title|nl2br }}</figcaption>
+                            </figure>
+                        </a>
+
+                        <div>
+                            {% for tag in album.tags %}
+                                {{ tag.title }}
+                            {% endfor %}
+                        </div>
+                    
+                    <hr>
+
+                </article>
+
+            {% endfor %}
 
         </section>
     </main>

@@ -55,7 +55,7 @@ class ImageController extends AbstractController
             $em->persist($image);
             $em->flush();
 
-            $this->addFlash('success', 'Image ' . $image->getSrc() . ' ajoutée');
+            $this->addFlash('success', 'Image "' . $image->getSrc() . '" ajoutée');
         }
         
         return $this->redirectToRoute('admin_image_browse');
@@ -82,17 +82,20 @@ class ImageController extends AbstractController
             $image->setUpdatedAt(new \DateTime());
 
             $file = $form_edit['file']->getData();
-            $fileName = $fileUploader->uploadFile($file);
 
-            $fileUploader->deleteUploadedFile($image->getSrc());
+            if ($file) {
+                $fileName = $fileUploader->uploadFile($file);
 
-            if ( $fileName ) {
-                $image->setSrc($fileName);
-            }
+                if ( $fileName ) {
+                    $fileUploader->deleteUploadedFile($image->getSrc());
+                    $image->setSrc($fileName);
+                }
+            }   
+
 
             $em->flush();
 
-            $this->addFlash('success', 'Image ' . $image->getSrc() . ' modifiée');
+            $this->addFlash('success', 'Image "' . $image->getSrc() . '" modifiée');
 
             return $this->redirectToRoute('admin_image_browse');
         }
@@ -120,7 +123,7 @@ class ImageController extends AbstractController
             $em->remove($image);
             $em->flush();
 
-            $this->addFlash('success', 'Image ' . $image->getSrc() . ' supprimée');
+            $this->addFlash('success', 'Image "' . $image->getSrc() . '" supprimée');
         }
         
         return $this->redirectToRoute('admin_image_browse');

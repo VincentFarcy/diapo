@@ -44,26 +44,21 @@ class Image
     private $updatedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Album", mappedBy="images")
-     */
-    private $albums;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Album", mappedBy="featuredImage")
-     */
-    private $featuredOnAlbums;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Author", inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ImageAlbum", mappedBy="image", orphanRemoval=true)
+     */
+    private $imageAlbums;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->albums = new ArrayCollection();
-        $this->featuredOnAlbums = new ArrayCollection();
+        $this->imageInAlbums = new ArrayCollection();
+        $this->imageAlbums = new ArrayCollection();
     }
 
     public function __toString()
@@ -136,65 +131,6 @@ class Image
         return $this;
     }
 
-    /**
-     * @return Collection|Album[]
-     */
-    public function getAlbums(): Collection
-    {
-        return $this->albums;
-    }
-
-    public function addAlbum(Album $album): self
-    {
-        if (!$this->albums->contains($album)) {
-            $this->albums[] = $album;
-            $album->addImage($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAlbum(Album $album): self
-    {
-        if ($this->albums->contains($album)) {
-            $this->albums->removeElement($album);
-            $album->removeImage($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Album[]
-     */
-    public function getFeaturedOnAlbums(): Collection
-    {
-        return $this->featuredOnAlbums;
-    }
-
-    public function addFeaturedOnAlbum(Album $featuredOnAlbum): self
-    {
-        if (!$this->featuredOnAlbums->contains($featuredOnAlbum)) {
-            $this->featuredOnAlbums[] = $featuredOnAlbum;
-            $featuredOnAlbum->setFeaturedImage($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFeaturedOnAlbum(Album $featuredOnAlbum): self
-    {
-        if ($this->featuredOnAlbums->contains($featuredOnAlbum)) {
-            $this->featuredOnAlbums->removeElement($featuredOnAlbum);
-            // set the owning side to null (unless already changed)
-            if ($featuredOnAlbum->getFeaturedImage() === $this) {
-                $featuredOnAlbum->setFeaturedImage(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getAuthor(): ?Author
     {
         return $this->author;
@@ -203,6 +139,37 @@ class Image
     public function setAuthor(?Author $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ImageAlbum[]
+     */
+    public function getImageAlbums(): Collection
+    {
+        return $this->imageAlbums;
+    }
+
+    public function addImageAlbum(ImageAlbum $imageAlbum): self
+    {
+        if (!$this->imageAlbums->contains($imageAlbum)) {
+            $this->imageAlbums[] = $imageAlbum;
+            $imageAlbum->setImage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImageAlbum(ImageAlbum $imageAlbum): self
+    {
+        if ($this->imageAlbums->contains($imageAlbum)) {
+            $this->imageAlbums->removeElement($imageAlbum);
+            // set the owning side to null (unless already changed)
+            if ($imageAlbum->getImage() === $this) {
+                $imageAlbum->setImage(null);
+            }
+        }
 
         return $this;
     }
