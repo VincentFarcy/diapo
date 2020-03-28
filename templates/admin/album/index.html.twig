@@ -42,7 +42,7 @@
 
             {% for album in albums %}
 
-                <tr class="table-primary">
+                <tr class="table-primary" id="album-{{ album.id }}">
 
                     {% if form_edit is defined and album == album_edit %}
 
@@ -73,12 +73,25 @@
                         <td>{{ album.author }}</td>
                         <td>{{ album.content }}</td>
                         <td>{% for tag   in album.tags   %} <div>{{ tag.title }}</div> {% endfor %}</td>
-                        <td>{% for image in album.images %} <div>{{ image.src }}</div> {% endfor %}</td>
-                        <td>{{ album.featuredImage }}</td>
+                        <td>
+                            {% for image in album.images %} 
+                                <img 
+                                    src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ image.src) }}"
+                                    class = "xs m-1" 
+                                    alt="{{ image.alt }}"
+                                />
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <img 
+                                src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ album.featuredImage.src) }}" 
+                                alt="{{ album.featuredImage.alt }}"
+                            />
+                        </td>
 
                         <td class="text-center">
 
-                            <form action="{{ path('admin_album_edit', {id: album.id}) }}" method="post" class="d-inline">
+                            <form action="{{ path('admin_album_edit', {id: album.id}) }}#{{ 'album-' ~ album.id }}" method="post" class="d-inline">
                                 <button class="btn btn-outline-warning">
                                     <i class="fa fa-pencil fa-2x mx-2" aria-hidden="true" alt="modifier"></i>
                                 </button>

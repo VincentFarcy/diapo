@@ -8,7 +8,7 @@
 
     <header></header>
 
-    <main>
+    <main class="album-list">
         <section>
 
         {% for album in albums %}
@@ -19,7 +19,10 @@
 
                     <a href="{{ path('album_read', {'id': album.id}) }}">
                         <figure>
-                            <img src="{{ asset('images/' ~ album.featuredImage.src ) }}" alt="{{ album.featuredImage.alt }}"/>
+                            <img 
+                                src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ album.featuredImage.src) }}" 
+                                alt="{{ album.featuredImage.alt }}"
+                            />
                             <figcaption>{{ album.title }}</figcaption>
                         </figure>
                     </a>

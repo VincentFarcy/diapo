@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Image;
 use App\Form\ImageType;
 use App\Repository\ImageRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +33,10 @@ class ImageController extends AbstractController
     /**
      * @Route("/add", name="add")
      */
-    public function add(Request $request, EntityManagerInterface $em)
+    public function add(
+        Request $request,
+        EntityManagerInterface $em,
+        FileUploader $fileUploader)
     {
         $image = new Image();
         $form = $this->createForm(ImageType::class, $image);
@@ -41,12 +45,17 @@ class ImageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $image = $form->getData();
+            $file = $form['file']->getData();
+            $fileName = $fileUploader->uploadFile($file);
+
+            if ( $fileName ) {
+                $image->setSrc($fileName);
+            }
 
             $em->persist($image);
             $em->flush();
 
-            $this->addFlash('success', 'Auteur ' . $image->getSrc() . ' ajouté');
+            $this->addFlash('success', 'Image ' . $image->getSrc() . ' ajoutée');
         }
         
         return $this->redirectToRoute('admin_image_browse');
@@ -55,7 +64,12 @@ class ImageController extends AbstractController
     /**
      * @Route("/{id}/edit", name="edit", requirements={"id": "\d+"}))
      */
-    public function edit(Image $image, ImageRepository $imageRepository, Request $request, EntityManagerInterface $em)
+    public function edit(
+        Image $image,
+        ImageRepository $imageRepository,
+        Request $request,
+        EntityManagerInterface $em,
+        FileUploader $fileUploader)
     {
         $form_edit = $this->createForm(ImageType::class, $image);
 
@@ -66,9 +80,19 @@ class ImageController extends AbstractController
         if ($form_edit->isSubmitted() && $form_edit->isValid()) {
 
             $image->setUpdatedAt(new \DateTime());
+
+            $file = $form_edit['file']->getData();
+            $fileName = $fileUploader->uploadFile($file);
+
+            $fileUploader->deleteUploadedFile($image->getSrc());
+
+            if ( $fileName ) {
+                $image->setSrc($fileName);
+            }
+
             $em->flush();
 
-            $this->addFlash('success', 'Auteur ' . $image->getSrc() . ' modifié');
+            $this->addFlash('success', 'Image ' . $image->getSrc() . ' modifiée');
 
             return $this->redirectToRoute('admin_image_browse');
         }
@@ -84,14 +108,19 @@ class ImageController extends AbstractController
     /**
      * @Route("/{id}/delete", name="delete", requirements={"id": "\d+"}), methods={"DELETE"})
      */
-    public function delete(Image $image, Request $request, EntityManagerInterface $em)
+    public function delete(
+        Image $image,
+        Request $request,
+        EntityManagerInterface $em,
+        FileUploader $fileUploader)
     {
         if($request->headers->get('referer') !== null) {
 
+            $fileUploader->deleteUploadedFile($image->getSrc());
             $em->remove($image);
             $em->flush();
 
-            $this->addFlash('success', 'Auteur ' . $image->getSrc() . ' supprimé');
+            $this->addFlash('success', 'Image ' . $image->getSrc() . ' supprimée');
         }
         
         return $this->redirectToRoute('admin_image_browse');

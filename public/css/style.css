@@ -1,7 +1,22 @@
-img {
+.album img {
+    width: 50%;
+}
+
+.album-list img {
     width: 200px;
+}
+
+table.admin img {
+    width: 200px;
+}
+table.admin img.xs {
+    width: 80px;
 }
 
 table.admin th {
     min-width: 160px;
+}
+
+table.admin textarea {
+    min-height: 150px;
 }

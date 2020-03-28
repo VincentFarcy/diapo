@@ -4,7 +4,13 @@
 
 {% block body %}
 
-    <h1 class="mb-4">Administration des images</h1>
+    <div class="d-flex mb-4 row">
+        <h1 class="col-10">Administration des images</h1>
+
+        <div class="col-2">
+            <a class="float-right" href="https://imagecompressor.com/fr/" target="_blank">Compression d'image</a>
+        </div>
+    </div>
 
     <table class="table table-hover admin">
 
@@ -22,7 +28,7 @@
 
             <tr class="table-primary">
                 {{ form_start(form_add, {'action': path('admin_image_add'), 'method': 'POST'}) }}
-                    <td>{{ form_widget(form_add.src, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(form_add.file, {'attr': {'class': 'form-control'}}) }}</td>
                     <td>{{ form_widget(form_add.alt, {'attr': {'class': 'form-control'}}) }}</td>
                     <td>{{ form_widget(form_add.caption, {'attr': {'class': 'form-control'}}) }}</td>
                     <td>{{ form_widget(form_add.author, {'attr': {'class': 'form-control'}}) }}</td>
@@ -36,13 +42,13 @@
 
             {% for image in images %}
 
-                <tr class="table-primary">
+                <tr class="table-primary" id="image-{{ image.id }}">
 
                     {% if form_edit is defined and image == image_edit %}
 
                         {{ form_start(form_edit, {'action': path('admin_image_edit', {id: image.id}), 'method': 'POST'}) }}
 
-                            <td>{{ form_widget(form_edit.src, {'attr': {'class': 'form-control'}}) }}</td>
+                            <td>{{ form_widget(form_edit.file, {'attr': {'class': 'form-control'}}) }}</td>
                             <td>{{ form_widget(form_edit.alt, {'attr': {'class': 'form-control'}}) }}</td>
                             <td>{{ form_widget(form_edit.caption, {'attr': {'class': 'form-control'}}) }}</td>
                             <td>{{ form_widget(form_edit.author, {'attr': {'class': 'form-control'}}) }}</td>
@@ -61,14 +67,14 @@
 
                     {% else %}
 
-                        <td>{{ image.src }}</td>
+                        <td><img src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ image.src) }}" alt="{{ image.alt }}"/></td>
                         <td>{{ image.alt }}</td>
                         <td>{{ image.caption }}</td>
                         <td>{{ image.author }}</td>
 
                         <td class="text-center">
 
-                            <form action="{{ path('admin_image_edit', {id: image.id}) }}" method="post" class="d-inline">
+                            <form action="{{ path('admin_image_edit', {id: image.id}) }}#{{ 'image-' ~ image.id }}" method="post" class="d-inline">
                                 <button class="btn btn-outline-warning">
                                     <i class="fa fa-pencil fa-2x mx-2" aria-hidden="true" alt="modifier"></i>
                                 </button>

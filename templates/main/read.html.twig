@@ -8,7 +8,7 @@
 
     <header></header>
 
-    <main>
+    <main class ="album">
         <section>
 
             <h1>{{ album.title }}</h1>
@@ -28,7 +28,10 @@
             {% for image in album.images %}
 
                 <figure>
-                    <img src="{{ asset('images/' ~ image.src ) }}" alt="{{ image.alt }}"/>
+                    <img 
+                        src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ image.src) }}" 
+                        alt="{{ image.alt }}"
+                    />
                     <figcaption>{{ album.title }}</figcaption>
                 </figure>
 
