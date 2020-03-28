@@ -6,7 +6,7 @@
 
     <h1 class="mb-4">Administration des images</h1>
 
-    <table class="table table-hover">
+    <table class="table table-hover admin">
 
         <thead>
             <tr>
@@ -14,7 +14,7 @@
                 <th scope="col">Texte alternatif</th>
                 <th scope="col">Légende</th>
                 <th scope="col">Auteur</th>
-                <th scope="col" class="text-center action">Actions</th>
+                <th scope="col" class="text-center">Actions</th>
             </tr>
         </thead>
 
@@ -22,10 +22,10 @@
 
             <tr class="table-primary">
                 {{ form_start(form_add, {'action': path('admin_image_add'), 'method': 'POST'}) }}
-                    <td>{{ form_widget(form_add.src) }}</td>
-                    <td>{{ form_widget(form_add.alt) }}</td>
-                    <td>{{ form_widget(form_add.caption) }}</td>
-                    <td>{{ form_widget(form_add.author) }}</td>
+                    <td>{{ form_widget(form_add.src, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(form_add.alt, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(form_add.caption, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(form_add.author, {'attr': {'class': 'form-control'}}) }}</td>
                     <td class="text-center">
                         <button type="submit" class="btn btn-outline-success">
                             <i class="fa fa-plus-circle fa-2x mx-2" aria-hidden="true"></i>
@@ -42,10 +42,10 @@
 
                         {{ form_start(form_edit, {'action': path('admin_image_edit', {id: image.id}), 'method': 'POST'}) }}
 
-                            <td>{{ form_widget(form_edit.src) }}</td>
-                            <td>{{ form_widget(form_edit.alt) }}</td>
-                            <td>{{ form_widget(form_edit.caption) }}</td>
-                            <td>{{ form_widget(form_edit.author) }}</td>
+                            <td>{{ form_widget(form_edit.src, {'attr': {'class': 'form-control'}}) }}</td>
+                            <td>{{ form_widget(form_edit.alt, {'attr': {'class': 'form-control'}}) }}</td>
+                            <td>{{ form_widget(form_edit.caption, {'attr': {'class': 'form-control'}}) }}</td>
+                            <td>{{ form_widget(form_edit.author, {'attr': {'class': 'form-control'}}) }}</td>
 
                             <td class="text-center">
                                 <button type="submit" class="btn btn-outline-success">

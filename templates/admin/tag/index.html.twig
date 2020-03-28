@@ -6,12 +6,12 @@
 
     <h1 class="mb-4">Administration des étiquettes</h1>
 
-    <table class="table table-hover">
+    <table class="table table-hover admin">
 
         <thead>
             <tr>
                 <th scope="col">Nom de l'étiquette</th>
-                <th scope="col" class="text-center action">Actions</th>
+                <th scope="col" class="text-center">Actions</th>
             </tr>
         </thead>
 
@@ -21,7 +21,7 @@
 
                 {{ form_start(form_add, {'action': path('admin_tag_add'), 'method': 'POST'}) }}
 
-                    <td>{{ form_widget(form_add.title) }}</td>
+                    <td>{{ form_widget(form_add.title, {'attr': {'class': 'form-control'}}) }}</td>
 
                     <td class="text-center">
                         <button type="submit" class="btn btn-outline-success">
@@ -41,7 +41,7 @@
 
                         {{ form_start(form_edit, {'action': path('admin_tag_edit', {id: tag.id}), 'method': 'POST'}) }}
 
-                            <td>{{ form_widget(form_edit.title) }}</td>
+                            <td>{{ form_widget(form_edit.title, {'attr': {'class': 'form-control'}}) }}</td>
 
                             <td class="text-center">
                                 <button type="submit" class="btn btn-outline-success">

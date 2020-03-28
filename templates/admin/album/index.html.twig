@@ -1,0 +1,106 @@
+{% extends '/admin/base.html.twig' %}
+
+{% block title %}Administration des albums{% endblock %}
+
+{% block body %}
+
+    <h1 class="mb-4">Administration des albums</h1>
+
+    <table class="table table-hover admin">
+
+        <thead>
+            <tr>
+                <th scope="col">Titre</th>
+                <th scope="col">Auteur</th>
+                <th scope="col">Contenu</th>
+                <th scope="col">Etiquettes</th>
+                <th scope="col">Images</th>
+                <th scope="col">Image de couverture</th>
+                <th scope="col" class="text-center">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr class="table-primary">
+                {{ form_start(form_add, {'action': path('admin_album_add'), 'method': 'POST'}) }}
+                    <td>{{ form_widget(form_add.title, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(form_add.author, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(form_add.content, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(form_add.tags, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(form_add.images, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(form_add.featuredImage, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td class="text-center">
+                            <div>
+                                <button type="submit" class="btn btn-outline-success">
+                                    <i class="fa fa-plus-circle fa-2x mx-2" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                    </td>
+                {{ form_end(form_add) }}
+            </tr>
+
+            {% for album in albums %}
+
+                <tr class="table-primary">
+
+                    {% if form_edit is defined and album == album_edit %}
+
+                        {{ form_start(form_edit, {'action': path('admin_album_edit', {id: album.id}), 'method': 'POST'}) }}
+
+                            <td>{{ form_widget(form_edit.title, {'attr': {'class': 'form-control'}}) }}</td>
+                            <td>{{ form_widget(form_edit.author, {'attr': {'class': 'form-control'}}) }}</td>
+                            <td>{{ form_widget(form_edit.content, {'attr': {'class': 'form-control'}}) }}</td>
+                            <td>{{ form_widget(form_edit.tags, {'attr': {'class': 'form-control'}}) }}</td>
+                            <td>{{ form_widget(form_edit.images, {'attr': {'class': 'form-control'}}) }}</td>
+                            <td>{{ form_widget(form_edit.featuredImage, {'attr': {'class': 'form-control'}}) }}</td>
+
+                            <td class="text-center">
+                                <button type="submit" class="btn btn-outline-success">
+                                    <i class="fa fa-pencil fa-2x mx-2" aria-hidden="true"></i>
+                                </button>
+
+                                <a href="{{ path('admin_album_browse') }}" class="btn btn-outline-secondary">
+                                    <i class="fa fa-close fa-2x mx-2" aria-hidden="true"></i>
+                                </a>
+                            </td>
+
+                        {{ form_end(form_edit) }}
+
+                    {% else %}
+
+                        <td>{{ album.title }}</td>
+                        <td>{{ album.author }}</td>
+                        <td>{{ album.content }}</td>
+                        <td>{% for tag   in album.tags   %} <div>{{ tag.title }}</div> {% endfor %}</td>
+                        <td>{% for image in album.images %} <div>{{ image.src }}</div> {% endfor %}</td>
+                        <td>{{ album.featuredImage }}</td>
+
+                        <td class="text-center">
+
+                            <form action="{{ path('admin_album_edit', {id: album.id}) }}" method="post" class="d-inline">
+                                <button class="btn btn-outline-warning">
+                                    <i class="fa fa-pencil fa-2x mx-2" aria-hidden="true" alt="modifier"></i>
+                                </button>
+                            </form>
+
+                            <form action="{{ path('admin_album_delete', {id: album.id}) }}" method="post" class="delete-form d-inline">
+                                <input type="hidden" name="_method" value="DELETE" />
+                                <button class="btn btn-outline-danger">
+                                    <i class="fa fa-trash fa-2x mx-2" aria-hidden="true" alt="supprimer"></i>
+                                </button>
+                            </form>
+
+                        </td>
+
+                    {% endif %}
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+{% endblock %}

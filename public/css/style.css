@@ -2,6 +2,6 @@ img {
     width: 200px;
 }
 
-th.action {
+table.admin th {
     min-width: 160px;
 }
