@@ -25,7 +25,8 @@
 
             <p>{{ album.content|nl2br }}</p>
 
-            {% for image in album.images %}
+            {{ dump(album)  }}
+            {% for image in album.imagealbums.images %}
 
                 <figure>
                     <img 

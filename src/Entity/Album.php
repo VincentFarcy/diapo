@@ -50,15 +50,15 @@ class Album
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ImageAlbum", mappedBy="album", orphanRemoval=true)
-     */
-    private $imageAlbums;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Image")
      * @ORM\JoinColumn(nullable=false)
      */
     private $featuredImage;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="album", orphanRemoval=true)
+     */
+    private $illustrations;
 
     public function __construct()
     {
@@ -66,6 +66,7 @@ class Album
         $this->tags = new ArrayCollection();
         $this->imageInAlbums = new ArrayCollection();
         $this->imageAlbums = new ArrayCollection();
+        $this->illustrations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -159,37 +160,6 @@ class Album
         return $this;
     }
 
-    /**
-     * @return Collection|ImageAlbum[]
-     */
-    public function getImageAlbums(): Collection
-    {
-        return $this->imageAlbums;
-    }
-
-    public function addImageAlbum(ImageAlbum $imageAlbum): self
-    {
-        if (!$this->imageAlbums->contains($imageAlbum)) {
-            $this->imageAlbums[] = $imageAlbum;
-            $imageAlbum->setAlbum($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImageAlbum(ImageAlbum $imageAlbum): self
-    {
-        if ($this->imageAlbums->contains($imageAlbum)) {
-            $this->imageAlbums->removeElement($imageAlbum);
-            // set the owning side to null (unless already changed)
-            if ($imageAlbum->getAlbum() === $this) {
-                $imageAlbum->setAlbum(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getFeaturedImage(): ?Image
     {
         return $this->featuredImage;
@@ -198,6 +168,37 @@ class Album
     public function setFeaturedImage(?Image $featuredImage): self
     {
         $this->featuredImage = $featuredImage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Illustration[]
+     */
+    public function getIllustrations(): Collection
+    {
+        return $this->illustrations;
+    }
+
+    public function addIllustration(Illustration $illustration): self
+    {
+        if (!$this->illustrations->contains($illustration)) {
+            $this->illustrations[] = $illustration;
+            $illustration->setAlbum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIllustration(Illustration $illustration): self
+    {
+        if ($this->illustrations->contains($illustration)) {
+            $this->illustrations->removeElement($illustration);
+            // set the owning side to null (unless already changed)
+            if ($illustration->getAlbum() === $this) {
+                $illustration->setAlbum(null);
+            }
+        }
 
         return $this;
     }

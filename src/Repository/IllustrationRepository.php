@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\ImageAlbum;
+use App\Entity\Illustration;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method ImageAlbum|null find($id, $lockMode = null, $lockVersion = null)
- * @method ImageAlbum|null findOneBy(array $criteria, array $orderBy = null)
- * @method ImageAlbum[]    findAll()
- * @method ImageAlbum[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Illustration|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Illustration|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Illustration[]    findAll()
+ * @method Illustration[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ImageAlbumRepository extends ServiceEntityRepository
+class IllustrationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ImageAlbum::class);
+        parent::__construct($registry, Illustration::class);
     }
 
     // /**
-    //  * @return ImageAlbum[] Returns an array of ImageAlbum objects
+    //  * @return Illustration[] Returns an array of Illustration objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ImageAlbumRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ImageAlbum
+    public function findOneBySomeField($value): ?Illustration
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.exampleField = :val')

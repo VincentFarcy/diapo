@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ImageAlbumRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\IllustrationRepository")
  */
-class ImageAlbum
+class Illustration
 {
     /**
      * @ORM\Id()
@@ -27,17 +27,32 @@ class ImageAlbum
     private $featuredImage;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Album", inversedBy="imageAlbums")
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Album", inversedBy="illustrations")
      * @ORM\JoinColumn(nullable=false)
      */
     private $album;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Image", inversedBy="imageAlbums")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Image", inversedBy="illustrations")
      * @ORM\JoinColumn(nullable=false)
      */
     private $image;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -63,6 +78,30 @@ class ImageAlbum
     public function setFeaturedImage(bool $featuredImage): self
     {
         $this->featuredImage = $featuredImage;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

@@ -50,15 +50,16 @@ class Image
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ImageAlbum", mappedBy="image", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="image", orphanRemoval=true)
      */
-    private $imageAlbums;
+    private $illustrations;
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->imageInAlbums = new ArrayCollection();
         $this->imageAlbums = new ArrayCollection();
+        $this->illustrations = new ArrayCollection();
     }
 
     public function __toString()
@@ -144,33 +145,34 @@ class Image
     }
 
     /**
-     * @return Collection|ImageAlbum[]
+     * @return Collection|Illustration[]
      */
-    public function getImageAlbums(): Collection
+    public function getIllustrations(): Collection
     {
-        return $this->imageAlbums;
+        return $this->illustrations;
     }
 
-    public function addImageAlbum(ImageAlbum $imageAlbum): self
+    public function addIllustration(Illustration $illustration): self
     {
-        if (!$this->imageAlbums->contains($imageAlbum)) {
-            $this->imageAlbums[] = $imageAlbum;
-            $imageAlbum->setImage($this);
+        if (!$this->illustrations->contains($illustration)) {
+            $this->illustrations[] = $illustration;
+            $illustration->setImage($this);
         }
 
         return $this;
     }
 
-    public function removeImageAlbum(ImageAlbum $imageAlbum): self
+    public function removeIllustration(Illustration $illustration): self
     {
-        if ($this->imageAlbums->contains($imageAlbum)) {
-            $this->imageAlbums->removeElement($imageAlbum);
+        if ($this->illustrations->contains($illustration)) {
+            $this->illustrations->removeElement($illustration);
             // set the owning side to null (unless already changed)
-            if ($imageAlbum->getImage() === $this) {
-                $imageAlbum->setImage(null);
+            if ($illustration->getImage() === $this) {
+                $illustration->setImage(null);
             }
         }
 
         return $this;
     }
+
 }

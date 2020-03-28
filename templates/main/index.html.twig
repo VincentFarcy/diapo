@@ -45,12 +45,10 @@
 
                         <a href="{{ path('album_read', {'id': album.id}) }}">
                             <figure>
-                            {#
                                 <img 
                                     src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ album.featuredImage.src) }}" 
                                     alt="{{ album.featuredImage.alt }}"
                                 />
-                            #}
                                 <figcaption>{{ album.title|nl2br }}</figcaption>
                             </figure>
                         </a>

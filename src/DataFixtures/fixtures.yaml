@@ -27,8 +27,8 @@ App\Entity\Album:
         tags: '<numberBetween(1, 3)>x @tag_entity*'
         featuredImage: '@image_entity*'
 
-App\Entity\ImageAlbum:
-    imageAlbum_entity_{1..10}:
+App\Entity\Illustration:
+    illustration_entity_{1..10}:
         priority: '<numberBetween(1,4)>' 
         featuredImage: 'boolean()' 
         album: '@album_entity*'
