@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AlbumRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Album
 {
@@ -190,4 +191,11 @@ class Album
         return $this;
     }
 
+    /**
+     * @ORM\PostUpdate
+     */
+    public function autoSetUpdateAt()
+    {
+        $this->updateddAt = new \DateTime();
+    }
 }

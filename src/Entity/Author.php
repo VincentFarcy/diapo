@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AuthorRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Author
 {
@@ -195,5 +196,13 @@ class Author
     public function getFullName(): ?string
     {
         return $this->firstname . ' ' . $this->lastname ;
+    }
+
+    /**
+     * @ORM\PostUpdate
+     */
+    public function autoSetUpdateAt()
+    {
+        $this->updateddAt = new \DateTime();
     }
 }
