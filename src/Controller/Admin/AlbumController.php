@@ -41,7 +41,7 @@ class AlbumController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $album = $form->getData();
+            //dd($album);
 
             $em->persist($album);
             $em->flush();

@@ -41,6 +41,9 @@ class ImageType extends AbstractType
                     ])
                 ],
             ])
+            ->add('album')
+            ->add('priority')
+            ->add('cover')
         ;
     }
 

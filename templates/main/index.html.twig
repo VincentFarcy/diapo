@@ -6,49 +6,91 @@
 
 <div class="container">
 
-    <header></header>
+
+    {% set route = app.request.attributes.get('_route') %}
+    {% set id = app.request.attributes.get('id') %}
+
+    <header>
+    
+        <h1>Liste des albums</h1>
+
+        <form action="{{ path('albums_by_tag', {'id': 0}) }}">
+            <select class="filter">
+                <option value="0">Liste des étiquettes</option>
+
+                {% for tag in tags %}
+
+                    {% set selected = '' %}
+                    {% if (route == 'albums_by_tag') and (id == tag.id) %}>
+                        {% set selected = 'selected' %}
+                    {% endif %}
+
+                    <option value={{ tag.id }} {{selected}}> {{ tag.title }}</option>
+
+                {% endfor %}
+
+            </select>
+        </form>
+
+        <form action="{{ path('albums_by_author', {'id': 0}) }}">
+            <select class="filter">
+                <option value="0">Liste des auteurs</option>
+
+                {% for author in authors %}
+
+                    {% set selected = '' %}
+                    {% if (route == 'albums_by_author') and (id == author.id) %}>
+                        {% set selected = 'selected' %}
+                    {% endif %}
+
+                    <option value={{ author.id }} {{selected}}>{{ author.firstname }} {{ author.lastname }}</option>
+
+                {% endfor %}
+
+            </select>
+        </form>
+
+    </header>
 
     <main class="album-list">
         <section>
 
-            <h1>Liste des albums</h1>
-
-            <form action="{{ path('albums_by_tag', {'id': 0}) }}">
-                <select class="filter">
-                    <option value="0">Liste des étiquettes</option>
-
-                    {% for tag in tags %}
-                        <option value={{ tag.id }}>{{ tag.title }}</option>
-                    {% endfor %}
-
-                </select>
-            </form>
-
-            <form action="{{ path('albums_by_author', {'id': 0}) }}">
-                <select class="filter">
-                    <option value="0">Liste des auteurs</option>
-
-                    {% for author in authors %}
-                        <option value={{ author.id }}>{{ author.firstname }} {{ author.lastname }}</option>
-                    {% endfor %}
-
-                </select>
-            </form>
-
-
-
             {% for album in albums %}
 
-                <article>
+                {% set priority = 999999 %}
+                {% set featured_image = null %}
+                {% for image in album.images %}
 
-                    <p>{{ album.author.firstname }} {{ album.author.lastname }}</p>
+                    {% if featured_image == null or image.priority < priority %}
+                        {% set featured_image = image %}
+                        {% set priority = image.priority %}
+                    {% endif %}
+
+                {% endfor %}
+
+                <article class="card border-primary mb-3" style="max-width: 20rem;">
+
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h4 class="card-title">Primary card title</h4>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+
+                    <p>
+                        {{ album.author.firstname }} {{ album.author.lastname }}
+                        {% if (album.author.birthday|date("m/d") == 'now'|date("m/d")) %}
+                            <i class="fa fa-birthday-cake" aria-hidden="true"></i>
+                        {% endif %}
+                    </p>
 
                         <a href="{{ path('album_read', {'id': album.id}) }}">
                             <figure>
-                                <img 
-                                    src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ album.featuredImage.src) }}" 
-                                    alt="{{ album.featuredImage.alt }}"
-                                />
+                                {% if featured_image %} 
+                                    <img 
+                                        src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ featured_image.src) }}" 
+                                        alt="{{ featured_image.alt }}"
+                                    />
+                                {% endif %}
                                 <figcaption>{{ album.title|nl2br }}</figcaption>
                             </figure>
                         </a>

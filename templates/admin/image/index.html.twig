@@ -12,14 +12,17 @@
         </div>
     </div>
 
-    <table class="table table-hover admin">
+    <table class="table table-hover">
 
         <thead>
             <tr>
                 <th scope="col">Image</th>
-                <th scope="col">Texte alternatif</th>
+                <th scope="col" class="col-w-lg">Texte alternatif</th>
                 <th scope="col">Légende</th>
                 <th scope="col">Auteur</th>
+                <th scope="col" class="col-w-lg">Album</th>
+                <th scope="col" class="col-w-xs">Priorité d'affichage (max=1)</th>
+                <th scope="col" class="col-w-xs">En couverture ?</th>
                 <th scope="col" class="text-center">Actions</th>
             </tr>
         </thead>
@@ -32,6 +35,9 @@
                     <td>{{ form_widget(form_add.alt, {'attr': {'class': 'form-control'}}) }}</td>
                     <td>{{ form_widget(form_add.caption, {'attr': {'class': 'form-control'}}) }}</td>
                     <td>{{ form_widget(form_add.author, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(form_add.album, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(form_add.priority, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{{ form_widget(form_add.cover, {'attr': {'class': 'form-control'}}) }}</td>
                     <td class="text-center">
                         <button type="submit" class="btn btn-outline-success">
                             <i class="fa fa-plus-circle fa-2x mx-2" aria-hidden="true"></i>
@@ -52,6 +58,9 @@
                             <td>{{ form_widget(form_edit.alt, {'attr': {'class': 'form-control'}}) }}</td>
                             <td>{{ form_widget(form_edit.caption, {'attr': {'class': 'form-control'}}) }}</td>
                             <td>{{ form_widget(form_edit.author, {'attr': {'class': 'form-control'}}) }}</td>
+                            <td>{{ form_widget(form_edit.album, {'attr': {'class': 'form-control'}}) }}</td>
+                            <td>{{ form_widget(form_edit.priority, {'attr': {'class': 'form-control'}}) }}</td>
+                            <td>{{ form_widget(form_edit.cover, {'attr': {'class': 'form-control'}}) }}</td>
 
                             <td class="text-center">
                                 <button type="submit" class="btn btn-outline-success">
@@ -71,6 +80,9 @@
                         <td>{{ image.alt }}</td>
                         <td>{{ image.caption }}</td>
                         <td>{{ image.author }}</td>
+                        <td>{{ image.album }}</td>
+                        <td>{{ image.priority }}</td>
+                        <td><input type="checkbox" class="form-control" disabled="disabled" {{ image.cover ? 'checked' }}></td>
 
                         <td class="text-center">
 
@@ -80,14 +92,12 @@
                                 </button>
                             </form>
 
-                            {% if image.albums.count == 0 and image.featuredOnAlbums.count == 0 %}
-                                <form action="{{ path('admin_image_delete', {id: image.id}) }}" method="post" class="delete-form d-inline">
-                                    <input type="hidden" name="_method" value="DELETE" />
-                                    <button class="btn btn-outline-danger">
-                                        <i class="fa fa-trash fa-2x mx-2" aria-hidden="true" alt="supprimer"></i>
-                                    </button>
-                                </form>
-                            {% endif %}
+                            <form action="{{ path('admin_image_delete', {id: image.id}) }}" method="post" class="delete-form d-inline">
+                                <input type="hidden" name="_method" value="DELETE" />
+                                <button class="btn btn-outline-danger">
+                                    <i class="fa fa-trash fa-2x mx-2" aria-hidden="true" alt="supprimer"></i>
+                                </button>
+                            </form>
 
                         </td>
 

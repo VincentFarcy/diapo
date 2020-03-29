@@ -1,6 +1,40 @@
-.jumbotron {
+main.admin .jumbotron {
     min-height: 50vh;
 }
+
+main.admin img {
+    width: 200px;
+}
+main.admin img.xs {
+    width: 80px;
+}
+
+main.admin th {
+    min-width: 160px;
+}
+
+main.admin th.col-w-xs {
+    min-width: unset;
+    width: 40px;
+}
+
+main.admin th.col-w-lg {
+    min-width: 200px;
+}
+
+main.admin th.col-w-xl {
+    min-width: 240px;
+}
+
+main.admin textarea {
+    min-height: 150px;
+}
+
+
+.album-list h1 {
+    text-align: center;
+}
+
 
 .album img {
     width: 50%;
@@ -8,19 +42,4 @@
 
 .album-list img {
     width: 200px;
-}
-
-table.admin img {
-    width: 200px;
-}
-table.admin img.xs {
-    width: 80px;
-}
-
-table.admin th {
-    min-width: 160px;
-}
-
-table.admin textarea {
-    min-height: 150px;
 }

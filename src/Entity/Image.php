@@ -44,22 +44,32 @@ class Image
     private $updatedAt;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $priority;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $cover;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Author", inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="image", orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Album", inversedBy="images")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $illustrations;
+    private $album;
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->imageInAlbums = new ArrayCollection();
-        $this->imageAlbums = new ArrayCollection();
-        $this->illustrations = new ArrayCollection();
+        $this->priority = 1;
+        $this->cover = false;
     }
 
     public function __toString()
@@ -108,6 +118,30 @@ class Image
         return $this;
     }
 
+    public function getPriority(): ?int
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(int $priority): self
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+    public function getCover(): ?bool
+    {
+        return $this->cover;
+    }
+
+    public function setCover(bool $cover): self
+    {
+        $this->cover = $cover;
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -144,35 +178,15 @@ class Image
         return $this;
     }
 
-    /**
-     * @return Collection|Illustration[]
-     */
-    public function getIllustrations(): Collection
+    public function getAlbum(): ?Album
     {
-        return $this->illustrations;
+        return $this->album;
     }
 
-    public function addIllustration(Illustration $illustration): self
+    public function setAlbum(?Album $album): self
     {
-        if (!$this->illustrations->contains($illustration)) {
-            $this->illustrations[] = $illustration;
-            $illustration->setImage($this);
-        }
+        $this->album = $album;
 
         return $this;
     }
-
-    public function removeIllustration(Illustration $illustration): self
-    {
-        if ($this->illustrations->contains($illustration)) {
-            $this->illustrations->removeElement($illustration);
-            // set the owning side to null (unless already changed)
-            if ($illustration->getImage() === $this) {
-                $illustration->setImage(null);
-            }
-        }
-
-        return $this;
-    }
-
 }

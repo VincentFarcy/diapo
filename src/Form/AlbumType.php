@@ -15,9 +15,8 @@ class AlbumType extends AbstractType
             ->add('title')
             ->add('content')
             ->add('tags')
-            ->add('images')
-            ->add('featuredImage')
             ->add('author')
+            //->add('images')
         ;
     }
 

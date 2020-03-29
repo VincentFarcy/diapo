@@ -6,16 +6,15 @@
 
     <h1 class="mb-4">Administration des albums</h1>
 
-    <table class="table table-hover admin">
+    <table class="table table-hover">
 
         <thead>
             <tr>
-                <th scope="col">Titre</th>
+                <th scope="col" class="col-w-xl">Titre</th>
                 <th scope="col">Auteur</th>
                 <th scope="col">Contenu</th>
                 <th scope="col">Etiquettes</th>
-                <th scope="col">Images</th>
-                <th scope="col">Image de couverture</th>
+                <th scope="col" class="col-w-xs">Images associées</th>
                 <th scope="col" class="text-center">Actions</th>
             </tr>
         </thead>
@@ -28,8 +27,7 @@
                     <td>{{ form_widget(form_add.author, {'attr': {'class': 'form-control'}}) }}</td>
                     <td>{{ form_widget(form_add.content, {'attr': {'class': 'form-control'}}) }}</td>
                     <td>{{ form_widget(form_add.tags, {'attr': {'class': 'form-control'}}) }}</td>
-                    <td>{{ form_widget(form_add.images, {'attr': {'class': 'form-control'}}) }}</td>
-                    <td>{{ form_widget(form_add.featuredImage, {'attr': {'class': 'form-control'}}) }}</td>
+                    <td>{#{ form_widget(form_add.images, {'attr': {'class': 'form-control'}}) }#}</td>
                     <td class="text-center">
                             <div>
                                 <button type="submit" class="btn btn-outline-success">
@@ -52,8 +50,7 @@
                             <td>{{ form_widget(form_edit.author, {'attr': {'class': 'form-control'}}) }}</td>
                             <td>{{ form_widget(form_edit.content, {'attr': {'class': 'form-control'}}) }}</td>
                             <td>{{ form_widget(form_edit.tags, {'attr': {'class': 'form-control'}}) }}</td>
-                            <td>{{ form_widget(form_edit.images, {'attr': {'class': 'form-control'}}) }}</td>
-                            <td>{{ form_widget(form_edit.featuredImage, {'attr': {'class': 'form-control'}}) }}</td>
+                            <td>{#{ form_widget(form_edit.images, {'attr': {'class': 'form-control'}}) }#}</td>
 
                             <td class="text-center">
                                 <button type="submit" class="btn btn-outline-success">
@@ -81,12 +78,6 @@
                                     alt="{{ image.alt }}"
                                 />
                             {% endfor %}
-                        </td>
-                        <td>
-                            <img 
-                                src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ album.featuredImage.src) }}" 
-                                alt="{{ album.featuredImage.alt }}"
-                            />
                         </td>
 
                         <td class="text-center">

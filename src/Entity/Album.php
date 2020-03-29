@@ -50,23 +50,20 @@ class Album
     private $author;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Image")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="album", orphanRemoval=true)
      */
-    private $featuredImage;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="album", orphanRemoval=true)
-     */
-    private $illustrations;
+    private $images;
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->tags = new ArrayCollection();
-        $this->imageInAlbums = new ArrayCollection();
-        $this->imageAlbums = new ArrayCollection();
-        $this->illustrations = new ArrayCollection();
+        $this->images = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 
     public function getId(): ?int
@@ -132,6 +129,7 @@ class Album
 
     public function addTag(Tag $tag): self
     {
+
         if (!$this->tags->contains($tag)) {
             $this->tags[] = $tag;
         }
@@ -160,43 +158,32 @@ class Album
         return $this;
     }
 
-    public function getFeaturedImage(): ?Image
-    {
-        return $this->featuredImage;
-    }
-
-    public function setFeaturedImage(?Image $featuredImage): self
-    {
-        $this->featuredImage = $featuredImage;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|Illustration[]
+     * @return Collection|Image[]
      */
-    public function getIllustrations(): Collection
+    public function getImages(): Collection
     {
-        return $this->illustrations;
+        return $this->images;
     }
 
-    public function addIllustration(Illustration $illustration): self
+    public function addImage(Image $image): self
     {
-        if (!$this->illustrations->contains($illustration)) {
-            $this->illustrations[] = $illustration;
-            $illustration->setAlbum($this);
+        if (!$this->images->contains($image)) {
+
+            $this->images[] = $image;
+            $image->setAlbum($this);
         }
 
         return $this;
     }
 
-    public function removeIllustration(Illustration $illustration): self
+    public function removeImage(Image $image): self
     {
-        if ($this->illustrations->contains($illustration)) {
-            $this->illustrations->removeElement($illustration);
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
             // set the owning side to null (unless already changed)
-            if ($illustration->getAlbum() === $this) {
-                $illustration->setAlbum(null);
+            if ($image->getAlbum() === $this) {
+                $image->setAlbum(null);
             }
         }
 

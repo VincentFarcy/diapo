@@ -34,6 +34,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ path('admin_album_browse') }}" 
+                        class="nav-link {{ 'admin_album' in current_route ? 'active' }}" 
+                        data-toggle="tab">
+                        Albums
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ path('admin_image_browse') }}" 
                         class="nav-link {{ 'admin_image' in current_route ? 'active' }}" 
                         data-toggle="tab">
@@ -41,35 +48,41 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('admin_album_browse') }}" 
-                        class="nav-link {{ 'admin_album' in current_route ? 'active' }}" 
+                    <a href="{{ path('home') }}" 
+                        class="nav-link text-success" 
                         data-toggle="tab">
-                        Albums
+                        Le site
                     </a>
                 </li>
 
             </ul>
         </nav>
 
-        <div class="jumbotron pt-4">
-            {% for message in app.flashes('success') %}
-                <div class="alert alert-dismissible alert-success">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    {{ message }}
-                </div>
-            {% endfor %}
-            {% block body %}{% endblock %}
-            {% block javascripts %}
-                <script
-                    src="https://code.jquery.com/jquery-3.4.1.min.js"
-                    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-                    crossorigin="anonymous">
-                </script>
-                <script  
-                    src="{{ asset('js/app.js') }}">
-                </script>
-            {% endblock %}
-        </div>
+        <main class="admin">
+
+            <div class="jumbotron pt-4">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-dismissible alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% block body %}{% endblock %}
+            </div>
+
+        </main>
+
+    {% block javascripts %}
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous">
+        </script>
+        <script  
+            src="{{ asset('js/app.js') }}">
+        </script>
+    {% endblock %}
+
     </body>
     
 </html>
