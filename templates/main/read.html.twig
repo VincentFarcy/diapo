@@ -8,36 +8,57 @@
 
     <header></header>
 
-    <main class ="album">
-        <section>
+    <main class ="album pt-0">
 
-            <h1>{{ album.title|nl2br }}</h1>
+        <div class="jumbotron">
 
-            <div><a href="{{ app.request.headers.get('referer') }}">Retour</a></div>
+            {% set birthday = false %}
+            {% set birthday_css_class = '' %}
+            {% if (album.author.birthday|date("m/d") == 'now'|date("m/d")) %}
+                {% set birthday = true %}
+                {% set birthday_css_class = 'birthday' %}
+            {% endif %}
 
-            <p>{{ album.author.firstname }} {{ album.author.lastname }}</p>
-
-            <div>
+            <div class="text-right my-n5 text-secondary">
                 {% for tag in album.tags %}
                     {{ tag.title }}
                 {% endfor %}
             </div>
 
+            <h1 class="mt-5 mb-3 pt-3">{{ album.title|nl2br }}</h1>
+
+            <h3 class="d-flex justify-content-between {{ birthday_css_class }} {{ birthday ? 'pt-3 px-4 text-white' : 'text-primary' }}">
+                <p>{{ album.author.firstname }} {{ album.author.lastname }}</p>
+                {% if birthday %}
+                    <i class="fa fa-birthday-cake text-white" aria-hidden="true"></i>
+                {% endif %}
+            </h3>
+
+            <hr class="my-4">
+
             <p>{{ album.content|nl2br }}</p>
+
+            <hr class="my-4">
 
             {% for image in album.images %}
 
-                <figure>
-                    <img 
-                        src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ image.src) }}" 
-                        alt="{{ image.alt }}"
-                    />
-                    <figcaption>{{ image.caption|nl2br }}</figcaption>
-                </figure>
+                <div>
+                    <figure class="d-flex align-items-center {{ cycle(['flex-row', 'flex-row-reverse'], loop.index0) }}">
+                        <img
+                            src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ image.src) }}" 
+                            alt="{{ image.alt }}"
+                            class="w-50 {{ cycle(['mr-4', 'ml-4'], loop.index0) }}"
+                        />
+                        <figcaption class="text-justify">{{ image.caption|nl2br }}</figcaption>
+                    </figure>
+                </div>
+
+                <hr class="my-4">
 
             {% endfor %}
 
-        </section>
+        </div>
+
     </main>
 
     <footer></footer>

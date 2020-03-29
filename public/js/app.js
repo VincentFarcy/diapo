@@ -9,29 +9,30 @@ let app = {
         $('.filter').change(app.submitFilterForm);
     },
 
-    deleteHandleSubmit : function (event) {
+    deleteHandleSubmit : function (event)
+    {
         if(!confirm('merci de confirmer la suppression définitive.')) {
             event.preventDefault();
         }
     },
 
-    toggleCloseClass : function (event) {
+    toggleCloseClass : function (event)
+    {
         const $alert = $(event.currentTarget).closest('.alert');
         if ($alert) {
             $alert.toggleClass('d-none');
         }
     },
 
-    submitFilterForm : function (event) {
+    submitFilterForm : function (event)
+    {
         const $select = $(event.currentTarget);
         const val = $select.val();
-        if (val !== 0) {
-            const $form = $select.closest('form');
-            var action = $form.attr('action')
-            action = action.substr(0, action.length - 1) + val
-            $form.attr('action', action);
-            $form.submit();
-        }
+        const $form = $select.closest('form');
+        var action = $form.attr('action')
+        action = action.substr(0, action.length - 1) + val
+        $form.attr('action', action);
+        $form.submit();
     }
 }
 $(app.init);

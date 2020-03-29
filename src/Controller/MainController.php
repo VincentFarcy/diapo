@@ -34,11 +34,16 @@ class MainController extends AbstractController
      * @Route("/albums/byTag/{id}", name="albums_by_tag", requirements={"id": "\d+"})
      */
     public function browseByTag(
-        Tag $tag,
+        $id,
         AlbumRepository $albumRepository, 
         TagRepository $tagRepository,
         AuthorRepository $authorRepository,Request $request)
     {
+        if ($id == 0) {
+            return $this->redirectToRoute('home');
+        } else {
+            $tag = $tagRepository->find($id);
+        }
 
         return $this->render('main/index.html.twig', [
             'albums' => $albumRepository->findByTag($tag->getId()),
@@ -51,11 +56,17 @@ class MainController extends AbstractController
      * @Route("/albums/byAuthor/{id}", name="albums_by_author", requirements={"id": "\d+"})
      */
     public function browseByAuthor(
-        Author $author,
+        $id,
         AlbumRepository $albumRepository, 
         TagRepository $tagRepository,
         AuthorRepository $authorRepository)
     {
+        if ($id == 0) {
+            return $this->redirectToRoute('home');
+        } else {
+            $author = $authorRepository->find($id);
+        }
+
         return $this->render('main/index.html.twig', [
             'albums' => $albumRepository->findByAuthor($author->getId()),
             'tags' => $tagRepository->findAllWithAlbums(),

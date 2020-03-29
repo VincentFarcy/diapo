@@ -10,31 +10,13 @@
     {% set route = app.request.attributes.get('_route') %}
     {% set id = app.request.attributes.get('id') %}
 
-    <header>
+    <header class ="row mb-3">
     
-        <h1>Liste des albums</h1>
+        <h1 class="col-8">Liste des albums</h1>
 
-        <form action="{{ path('albums_by_tag', {'id': 0}) }}">
-            <select class="filter">
-                <option value="0">Liste des étiquettes</option>
-
-                {% for tag in tags %}
-
-                    {% set selected = '' %}
-                    {% if (route == 'albums_by_tag') and (id == tag.id) %}>
-                        {% set selected = 'selected' %}
-                    {% endif %}
-
-                    <option value={{ tag.id }} {{selected}}> {{ tag.title }}</option>
-
-                {% endfor %}
-
-            </select>
-        </form>
-
-        <form action="{{ path('albums_by_author', {'id': 0}) }}">
-            <select class="filter">
-                <option value="0">Liste des auteurs</option>
+        <form class="col-2" action="{{ path('albums_by_author', {'id': 0}) }}">
+            <select class="filter form-control">
+                <option value="0">Auteurs</option>
 
                 {% for author in authors %}
 
@@ -50,10 +32,30 @@
             </select>
         </form>
 
+        <form class="col-2" action="{{ path('albums_by_tag', {'id': 0}) }}">
+
+            <select class="filter form-control">
+                <option value="0">Etiquettes</option>
+
+                {% for tag in tags %}
+
+                    {% set selected = '' %}
+                    {% if (route == 'albums_by_tag') and (id == tag.id) %}>
+                        {% set selected = 'selected' %}
+                    {% endif %}
+
+                    <option value={{ tag.id }} {{selected}}> {{ tag.title }}</option>
+
+                {% endfor %}
+
+            </select>
+        </form>
+
     </header>
 
     <main class="album-list">
-        <section>
+
+        <div class="jumbotron d-flex flex-wrap justify-content-between">
 
             {% for album in albums %}
 
@@ -68,46 +70,49 @@
 
                 {% endfor %}
 
-                <article class="card border-primary mb-3" style="max-width: 20rem;">
+                {% set birthday = false %}
+                {% set birthday_css_class = '' %}
+                {% if (album.author.birthday|date("m/d") == 'now'|date("m/d")) %}
+                    {% set birthday = true %}
+                    {% set birthday_css_class = 'birthday' %}
+                {% endif %}
 
-                    <div class="card-header">Header</div>
-                    <div class="card-body">
-                        <h4 class="card-title">Primary card title</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
+                {% set colors = ['primary', 'secondary', 'success', 'info', 'warning'] %}
 
-                    <p>
-                        {{ album.author.firstname }} {{ album.author.lastname }}
-                        {% if (album.author.birthday|date("m/d") == 'now'|date("m/d")) %}
+                <article class="card text-white bg-{{ cycle(colors, loop.index0) }} mb-3 {{ birthday_css_class }}" style="max-width: 20rem;">
+
+                    <div class="card-header d-flex justify-content-between">
+                        <p>{{ album.author.firstname }} {{ album.author.lastname }}</p>
+                        {% if birthday %}
                             <i class="fa fa-birthday-cake" aria-hidden="true"></i>
                         {% endif %}
-                    </p>
-
-                        <a href="{{ path('album_read', {'id': album.id}) }}">
-                            <figure>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <a class="text-white" href="{{ path('album_read', {'id': album.id}) }}">{{ album.title|nl2br }}</a>
+                        </h4>
+                        <p class="card-text">
+                            <a href="{{ path('album_read', {'id': album.id}) }}">
                                 {% if featured_image %} 
                                     <img 
                                         src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ featured_image.src) }}" 
                                         alt="{{ featured_image.alt }}"
                                     />
                                 {% endif %}
-                                <figcaption>{{ album.title|nl2br }}</figcaption>
-                            </figure>
-                        </a>
-
+                            </a>
+                        </p>
                         <div>
                             {% for tag in album.tags %}
                                 {{ tag.title }}
                             {% endfor %}
                         </div>
-                    
-                    <hr>
+                    </div>
 
                 </article>
 
             {% endfor %}
 
-        </section>
+        </div>
     </main>
 
     <footer></footer>

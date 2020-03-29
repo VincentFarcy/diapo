@@ -35,11 +35,21 @@ main.admin textarea {
     text-align: center;
 }
 
-
-.album img {
-    width: 50%;
-}
-
 .album-list img {
-    width: 200px;
+    width: 100%;
 }
+
+.birthday {
+    background: linear-gradient(
+        45deg, 
+        var(--indigo) 0%,
+        var(--blue) 15%,
+        var(--cyan) 30%,
+        var(--green) 45%,
+        var(--yellow) 60%,
+        var(--orange) 75%,
+        var(--purple) 100%
+    );
+}
+
+
