@@ -39,6 +39,22 @@ main.admin textarea {
     width: 100%;
 }
 
+@media (min-width:990px) {
+    .album-list .card {
+        max-width:20rem;
+    }
+}
+
+.album .image {
+    width: 100%;
+}
+
+@media (min-width:990px) {
+    .album .image {
+        width: 46%;
+    }
+}
+
 .birthday {
     background: linear-gradient(
         45deg, 

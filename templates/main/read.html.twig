@@ -28,7 +28,7 @@
             <h1 class="mt-5 mb-3 pt-3">{{ album.title|nl2br }}</h1>
 
             <h3 class="d-flex justify-content-between {{ birthday_css_class }} {{ birthday ? 'pt-3 px-4 text-white' : 'text-primary' }}">
-                <p>{{ album.author.firstname }} {{ album.author.lastname }}</p>
+                <p>{{ album.author.firstname }}</p>
                 {% if birthday %}
                     <i class="fa fa-birthday-cake text-white" aria-hidden="true"></i>
                 {% endif %}
@@ -40,22 +40,26 @@
 
             <hr class="my-4">
 
-            {% for image in album.images %}
+            <div class="container d-flex flex-wrap">
 
-                <div>
-                    <figure class="d-flex align-items-center {{ cycle(['flex-row', 'flex-row-reverse'], loop.index0) }}">
-                        <img
-                            src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ image.src) }}" 
-                            alt="{{ image.alt }}"
-                            class="w-50 {{ cycle(['mr-4', 'ml-4'], loop.index0) }}"
-                        />
-                        <figcaption class="text-justify">{{ image.caption|nl2br }}</figcaption>
-                    </figure>
-                </div>
+                {% for image in album.images %}
 
-                <hr class="my-4">
+                    <div class="image m-2 text-right }}">
+                        <figure>
+                            <img
+                                src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ image.src) }}" 
+                                alt="{{ image.alt }}"
+                                class="w-100 mb-2"
+                            />
+                            <figcaption class="text-justify">{{ image.caption|nl2br }}</figcaption>
+                        </figure>
+                    </div>
 
-            {% endfor %}
+                    <hr class="my-4">
+
+                {% endfor %}
+
+            </div>
 
         </div>
 

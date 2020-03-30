@@ -12,9 +12,9 @@
 
     <header class ="row mb-3">
     
-        <h1 class="col-8">Liste des albums</h1>
+        <h1 class="col-lg-8">Liste des albums</h1>
 
-        <form class="col-2" action="{{ path('albums_by_author', {'id': 0}) }}">
+        <form class="col-lg-2" action="{{ path('albums_by_author', {'id': 0}) }}">
             <select class="filter form-control">
                 <option value="0">Auteurs</option>
 
@@ -25,14 +25,14 @@
                         {% set selected = 'selected' %}
                     {% endif %}
 
-                    <option value={{ author.id }} {{selected}}>{{ author.firstname }} {{ author.lastname }}</option>
+                    <option value={{ author.id }} {{selected}}>{{ author.firstname }}</option>
 
                 {% endfor %}
 
             </select>
         </form>
 
-        <form class="col-2" action="{{ path('albums_by_tag', {'id': 0}) }}">
+        <form class="col-lg-2" action="{{ path('albums_by_tag', {'id': 0}) }}">
 
             <select class="filter form-control">
                 <option value="0">Etiquettes</option>
@@ -55,7 +55,7 @@
 
     <main class="album-list">
 
-        <div class="jumbotron d-flex flex-wrap justify-content-between">
+        <div class="jumbotron d-flex flex-wrap justify-content-start">
 
             {% for album in albums %}
 
@@ -63,52 +63,56 @@
                 {% set featured_image = null %}
                 {% for image in album.images %}
 
-                    {% if featured_image == null or image.priority < priority %}
+                    {% if image.cover and image.priority < priority %}
                         {% set featured_image = image %}
                         {% set priority = image.priority %}
                     {% endif %}
 
                 {% endfor %}
 
-                {% set birthday = false %}
-                {% set birthday_css_class = '' %}
-                {% if (album.author.birthday|date("m/d") == 'now'|date("m/d")) %}
-                    {% set birthday = true %}
-                    {% set birthday_css_class = 'birthday' %}
-                {% endif %}
+                {% if not featured_image == null %}
 
-                {% set colors = ['primary', 'secondary', 'success', 'info', 'warning'] %}
+                    {% set birthday = false %}
+                    {% set birthday_css_class = '' %}
+                    {% if (album.author.birthday|date("m/d") == 'now'|date("m/d")) %}
+                        {% set birthday = true %}
+                        {% set birthday_css_class = 'birthday' %}
+                    {% endif %}
 
-                <article class="card text-white bg-{{ cycle(colors, loop.index0) }} mb-3 {{ birthday_css_class }}" style="max-width: 20rem;">
+                    {% set colors = ['primary', 'secondary', 'success', 'info', 'warning'] %}
 
-                    <div class="card-header d-flex justify-content-between">
-                        <p>{{ album.author.firstname }} {{ album.author.lastname }}</p>
-                        {% if birthday %}
-                            <i class="fa fa-birthday-cake" aria-hidden="true"></i>
-                        {% endif %}
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            <a class="text-white" href="{{ path('album_read', {'id': album.id}) }}">{{ album.title|nl2br }}</a>
-                        </h4>
-                        <p class="card-text">
-                            <a href="{{ path('album_read', {'id': album.id}) }}">
-                                {% if featured_image %} 
-                                    <img 
-                                        src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ featured_image.src) }}" 
-                                        alt="{{ featured_image.alt }}"
-                                    />
-                                {% endif %}
-                            </a>
-                        </p>
-                        <div>
-                            {% for tag in album.tags %}
-                                {{ tag.title }}
-                            {% endfor %}
+                    <article class="card text-white bg-{{ cycle(colors, loop.index0) }} mb-4 mr-4 {{ birthday_css_class }}">
+
+                        <div class="card-header d-flex justify-content-between">
+                            <p>{{ album.author.firstname }}</p>
+                            {% if birthday %}
+                                <i class="fa fa-birthday-cake" aria-hidden="true"></i>
+                            {% endif %}
                         </div>
-                    </div>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a class="text-white" href="{{ path('album_read', {'id': album.id}) }}">{{ album.title|nl2br }}</a>
+                            </h4>
+                            <p class="card-text">
+                                <a href="{{ path('album_read', {'id': album.id}) }}">
+                                    {% if featured_image %} 
+                                        <img 
+                                            src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ featured_image.src) }}" 
+                                            alt="{{ featured_image.alt }}"
+                                        />
+                                    {% endif %}
+                                </a>
+                            </p>
+                            <div>
+                                {% for tag in album.tags %}
+                                    {{ tag.title }}
+                                {% endfor %}
+                            </div>
+                        </div>
 
-                </article>
+                    </article>
+
+                {% endif %}
 
             {% endfor %}
 

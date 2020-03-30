@@ -64,7 +64,11 @@ class Album
 
     public function __toString()
     {
-        return $this->title;
+        return $this->author->getfirstname() 
+            . ' '
+            . $this->author->getLastname()
+            . ' - '
+            .$this->title;
     }
 
     public function getId(): ?int
