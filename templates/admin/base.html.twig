@@ -20,6 +20,13 @@
         <nav>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
+                    <a href="{{ path('admin_user_browse') }}" 
+                        class="nav-link {{ 'admin_user' in current_route ? 'active' }}" 
+                        data-toggle="tab">
+                        Accès
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ path('admin_tag_browse') }}" 
                         class="nav-link {{ 'admin_tag' in current_route ? 'active' }}" 
                         data-toggle="tab">
@@ -50,7 +57,8 @@
                 <li class="nav-item">
                     <a href="{{ path('home') }}" 
                         class="nav-link text-success" 
-                        data-toggle="tab">
+                        data-toggle="tab"
+                        target="_blank">
                         Le site
                     </a>
                 </li>

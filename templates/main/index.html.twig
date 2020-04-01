@@ -4,9 +4,6 @@
 
 {% block body %}
 
-<div class="container">
-
-
     {% set route = app.request.attributes.get('_route') %}
     {% set id = app.request.attributes.get('id') %}
 
@@ -120,8 +117,5 @@
     </main>
 
     <footer></footer>
-
-
-</div>
 
 {% endblock %}
