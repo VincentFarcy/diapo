@@ -25,7 +25,10 @@ class ImageController extends AbstractController
         $form = $this->createForm(ImageType::class, $image);
 
         return $this->render('admin/image/index.html.twig', [
-            'images' => $imageRepository->findAll(),
+            'images' => $imageRepository->findBy(
+                [],
+                ['album'=>'ASC', 'priority'=>'ASC']
+            ),
             'form_add' => $form->createView(),
         ]);
     }

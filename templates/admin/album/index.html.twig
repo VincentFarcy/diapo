@@ -71,7 +71,7 @@
                         <td>{{ album.content }}</td>
                         <td>{% for tag   in album.tags   %} <div>{{ tag.title }}</div> {% endfor %}</td>
                         <td>
-                            {% for image in album.images %} 
+                            {% for image in album.images|sort((a, b) => a.priority <=> b.priority) %} 
                                 <img 
                                     src="{{ asset(image_directory|replace({'/public/' : ''}) ~ '/' ~ image.src) }}"
                                     class = "xs m-1" 

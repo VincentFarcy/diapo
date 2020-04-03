@@ -42,7 +42,7 @@
 
             <div class="container d-flex flex-wrap">
 
-                {% for image in album.images %}
+                {% for image in album.images|sort((a, b) => a.priority <=> b.priority) %}
 
                     <div class="image m-2 text-right }}">
                         <figure>
